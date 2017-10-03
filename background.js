@@ -8,24 +8,31 @@
   let Storage = {} || 0;
   window.Storage = Storage;
 
-  Storage.setVolume = function(volume) {
+  /**
+   * Setting the volume in chrome storage.
+   */
+  Storage.setVolume = volume => {
     let start = performance.now();
-    chrome.storage.sync.set({ value: volume }, function() {
+    chrome.storage.sync.set({ value: volume }, () => {
       console.info("[TurnDatSh!itDown][Debug] Default Volume Setting Saved");
     });
     let end = performance.now();
     console.info(
-      "[TurnDatSh!itDown][Debug] Volume Value retrieved in %c" +
+      "[TurnDatSh!itDown][Debug] Volume value retrieved in %c" +
         (end - start).toFixed(2) +
         " ms.",
       cssStyles.boldGreen
     );
   };
 
-  Storage.getVolume = function(callback) {
+  /**
+   * Getting the volume in chrome storage.
+   */
+  Storage.getVolume = callback => {
     let start = performance.now();
     console.info("[TurnDatSh!itDown][Debug] Getting Currently Default Volume.");
-    chrome.storage.sync.get("value", function(volume) {
+    chrome.storage.sync.get("value", volume => {
+      if (volume === undefined) return 100;
       callback(volume);
     });
     let end = performance.now();
